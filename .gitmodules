@@ -1,0 +1,6 @@
+[submodule "backend"]
+	path = backend
+	url = https://github.com/jcalvezar/peritajes-server.git
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/jcalvezar/peritajes.git
