@@ -86,3 +86,7 @@ Key environment variables used for container configuration:
 - `BACKEND_PORT`, `FRONTEND_PORT`: Service ports
 - `BACKEND_URL`: Backend URL for frontend configuration
 - `JWT_SECRET`: Authentication secret
+
+## AI Assistant Rules
+
+- **Never push directly to main.** Always create feature branches following the Git Workflow section above.
