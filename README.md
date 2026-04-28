@@ -6,6 +6,7 @@ Proyecto de venta de autos con arquitectura de microservicios.
 
 - **backend/**: API REST y WebSocket (Node.js + Express)
 - **frontend/**: Aplicación web (Next.js)
+- **app-mobile/**: Aplicación móvil (submódulo)
 - **dockers/**: Configuración de contenedores
 
 ## Instalación
@@ -16,7 +17,7 @@ Al clonar el repositorio, ejecutar:
 git submodule update --init --recursive
 ```
 
-Esto descargará los submodules de backend y frontend.
+Esto descargará los submodules de backend, frontend y app-mobile.
 
 ## Configuración
 
