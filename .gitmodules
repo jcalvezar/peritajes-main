@@ -4,3 +4,6 @@
 [submodule "frontend"]
 	path = frontend
 	url = https://github.com/jcalvezar/peritajes.git
+[submodule "app-mobile"]
+	path = app-mobile
+	url = git@github.com:jcalvezar/MyCars2025.git
