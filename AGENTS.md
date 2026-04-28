@@ -90,3 +90,4 @@ Key environment variables used for container configuration:
 ## AI Assistant Rules
 
 - **Never push directly to main.** Always create feature branches following the Git Workflow section above.
+- **Never delete or modify git hooks.** Specifically, never delete or modify the `pre-push` hook in `.git/hooks/` or `.git/modules/*/hooks/`. If a git operation is blocked by a hook, ask the user for guidance instead of bypassing or removing the hook.
