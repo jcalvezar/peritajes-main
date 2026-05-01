@@ -58,6 +58,41 @@ This project follows a microservices-like architecture with separate containers 
 2. **Backend** (Node.js) processes requests and interacts with **MySQL** database
 3. All containers share the same Docker network (`lioncars_net`) for internal communication
 
+## System Modules
+
+The system is divided into 3 paid, independent modules. Access to each module is granted based on the dealership's subscription, and only subscribed modules are displayed in both the mobile app and frontend:
+
+### 1. Parkings
+Manages vehicle depositories and the vehicles stored in each depository. Includes ABM (Add, Edit, Delete) of parkings, ABM of vehicles in parkings, and parking listings.
+
+### 2. Reservas
+Manages vehicle reservations: customers indicate vehicles they want that are not yet available in the dealership. Includes ABM of reservations and reservation listings.
+
+### 3. Peritajes
+Manages used vehicle inspections (checks for engine, paint, tires, interior, etc.). Includes ABM of vehicles to inspect, inspection execution, and inspection approval.
+
+## User Roles and Permissions
+
+### Owner
+The user who registered and created the dealership, responsible for all module payments. Permissions:
+- Create administrator users
+- Create custom roles and assign specific permissions (e.g., ABM of parkings, ABM of vehicles in parkings, parking listings, ABM of reservations, reservation listings, ABM of vehicles to inspect, inspection execution, inspection approval) to each role
+- Full access to all subscribed modules
+- Cannot be edited or deleted by administrators
+
+### Administrators
+Created by the Owner. Permissions:
+- Full access to all subscribed modules and features, except:
+  - Modifying, editing, or deleting the Owner
+  - Changing payment/subscription settings
+  - Creating or editing roles (only Owner can do this)
+- Create regular users and assign existing roles (defined by the Owner)
+
+### Regular Users
+Created by administrators, assigned roles defined by the Owner. Permissions:
+- Access only the modules and features granted by their assigned role
+- Only see tabs/sections corresponding to their permissions (e.g., a user with only parking permissions cannot see Reservas or Peritajes tabs)
+
 ## ACARA Parser
 
 The parser is integrated into the **Backend** container. It parses the ACARA PDF (`./backend/data/acara_precios_autos.pdf`) to extract vehicle brands, models, versions, and prices.
@@ -92,3 +127,6 @@ Key environment variables used for container configuration:
 - **Never push directly to main.** Always create feature branches following the Git Workflow section above.
 - **Never delete or modify git hooks.** Specifically, never delete or modify the `pre-push` hook in `.git/hooks/` or `.git/modules/*/hooks/`. If a git operation is blocked by a hook, ask the user for guidance instead of bypassing or removing the hook.
 - **Never modify or delete the .env file.** The .env file contains critical environment variables and must not be altered.
+- **Never make commits or pushes.** Only provide the user with the **list of files to commit**. The user will do the commit and push themselves.
+- **If git pull fails**, show the user which files are causing the problem and ask what to do before taking any action. Do not reset or clean without user permission.
+- **When sign in is successful**, the app shows parkings and vehicles. Use real data from backend via socket, not hardcoded data.
