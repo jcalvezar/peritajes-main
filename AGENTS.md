@@ -75,18 +75,19 @@ Manages used vehicle inspections (checks for engine, paint, tires, interior, etc
 
 ### Owner
 The user who registered and created the dealership, responsible for all module payments. Permissions:
-- Create administrator users
-- Create custom roles and assign specific permissions (e.g., ABM of parkings, ABM of vehicles in parkings, parking listings, ABM of reservations, reservation listings, ABM of vehicles to inspect, inspection execution, inspection approval) to each role
+- Create administrator users for their dealership
+- Create custom roles and assign specific permissions (e.g., ABM of parkings, ABM of vehicles in parkings, parking listings, ABM of reservations, reservation listings, ABM of vehicles to inspect, inspection execution, inspection approval) to each role **within their dealership only**
 - Full access to all subscribed modules
 - Cannot be edited or deleted by administrators
+- Roles created by an Owner are scoped to their dealership and do not affect other dealerships
 
 ### Administrators
 Created by the Owner. Permissions:
-- Full access to all subscribed modules and features, except:
+- Full access to all subscribed modules and features **within their dealership**, except:
   - Modifying, editing, or deleting the Owner
   - Changing payment/subscription settings
   - Creating or editing roles (only Owner can do this)
-- Create regular users and assign existing roles (defined by the Owner)
+- Create regular users and assign existing roles (defined by the Owner for their dealership)
 
 ### Regular Users
 Created by administrators, assigned roles defined by the Owner. Permissions:
