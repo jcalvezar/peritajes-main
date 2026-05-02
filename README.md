@@ -9,6 +9,22 @@ Proyecto de venta de autos con arquitectura de microservicios.
 - **app-mobile/**: Aplicación móvil (submódulo)
 - **dockers/**: Configuración de contenedores
 
+## Módulos del Sistema
+
+El sistema cuenta con 3 módulos independientes que se pagan por separado:
+
+1. **Parkings**: Gestión de depósitos de vehículos y vehículos en cada depósito
+2. **Reservas**: Gestión de reservas de vehículos (clientes manifiestan qué vehículo quieren pero aún no está disponible)
+3. **Peritajes**: Gestión de inspecciones de vehículos usados (motor, pintura, neumáticos, interior, etc.)
+
+Cada concesionaria puede subscribirse a los módulos que requiera.
+
+## Sistema de Roles
+
+- **Owner**: El usuario que creó la concesionaria. Puede crear roles personalizados con permisos específicos y administrar usuarios.
+- **Administrator**: Creado por el Owner. Acceso completo a los módulos suscritos (excepto modificar al Owner o crear roles).
+- **Usuario Regular**: Creado por Administrators. Acceso limitado según los permisos del rol asignado.
+
 ## Instalación
 
 Al clonar el repositorio, ejecutar:
