@@ -1,0 +1,27 @@
+{
+  "id": "state-management/architecture",
+  "title": "State Management Architecture",
+  "description": "Both the frontend (Next.js) and mobile app (React Native) use Redux Toolkit as the single source of truth for application state.",
+  "source": "@site/docs/state-management/architecture.md",
+  "sourceDirName": "state-management",
+  "slug": "/state-management/architecture",
+  "permalink": "/docs/state-management/architecture",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_label": "Architecture",
+    "sidebar_position": 1
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "State Management",
+    "permalink": "/docs/category/state-management"
+  },
+  "next": {
+    "title": "Slices",
+    "permalink": "/docs/state-management/slices"
+  }
+}

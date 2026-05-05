@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkmnt_ssd_1_tb_laburos_softcorp_development_lion_cars_docs=globalThis.webpackChunkmnt_ssd_1_tb_laburos_softcorp_development_lion_cars_docs||[]).push([[472],{5513(s){s.exports=JSON.parse('{"title":"Recent posts","items":[]}')}}]);
