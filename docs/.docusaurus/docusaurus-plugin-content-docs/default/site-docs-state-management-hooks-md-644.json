@@ -1,0 +1,27 @@
+{
+  "id": "state-management/hooks",
+  "title": "Custom Hooks",
+  "description": "useAuth()",
+  "source": "@site/docs/state-management/hooks.md",
+  "sourceDirName": "state-management",
+  "slug": "/state-management/hooks",
+  "permalink": "/docs/state-management/hooks",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_label": "Hooks",
+    "sidebar_position": 3
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "Slices",
+    "permalink": "/docs/state-management/slices"
+  },
+  "next": {
+    "title": "Data Flow",
+    "permalink": "/docs/category/data-flow"
+  }
+}

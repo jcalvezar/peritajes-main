@@ -1,0 +1,27 @@
+{
+  "id": "modules/inspections",
+  "title": "Inspections Module",
+  "description": "Manages used vehicle inspections. Covers engine, paint, tires, interior, and other checks.",
+  "source": "@site/docs/modules/inspections.md",
+  "sourceDirName": "modules",
+  "slug": "/modules/inspections",
+  "permalink": "/docs/modules/inspections",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_label": "Inspections",
+    "sidebar_position": 3
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "Reservations",
+    "permalink": "/docs/modules/reservations"
+  },
+  "next": {
+    "title": "API Reference",
+    "permalink": "/docs/category/api-reference"
+  }
+}

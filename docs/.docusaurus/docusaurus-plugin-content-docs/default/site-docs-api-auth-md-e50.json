@@ -1,0 +1,27 @@
+{
+  "id": "api/auth",
+  "title": "Authentication API",
+  "description": "POST /api/auth/login",
+  "source": "@site/docs/api/auth.md",
+  "sourceDirName": "api",
+  "slug": "/api/auth",
+  "permalink": "/docs/api/auth",
+  "draft": false,
+  "unlisted": false,
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_label": "Authentication",
+    "sidebar_position": 1
+  },
+  "sidebar": "docsSidebar",
+  "previous": {
+    "title": "API Reference",
+    "permalink": "/docs/category/api-reference"
+  },
+  "next": {
+    "title": "Vehicles",
+    "permalink": "/docs/api/vehicles"
+  }
+}
