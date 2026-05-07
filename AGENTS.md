@@ -123,6 +123,28 @@ Key environment variables used for container configuration:
 - `BACKEND_URL`: Backend URL for frontend configuration
 - `JWT_SECRET`: Authentication secret
 
+## TO-DO List
+
+### Docs
+- [ ] Actualizar doc parser: cambiar `./backend/parser/` por `./backend/parser.js` (archivo único)
+
+### Backend
+- [ ] **Fix `sockets/utils.js`**: Cambiar `export const generateRoom` (ES module) a `module.exports = { generateRoom }` (CommonJS). El resto del backend usa CommonJS y esto rompe en runtime.
+- [ ] Actualizar doc data-flow/socket-events: en `join_company` solo se envían los parkings (no los vehicles). Los vehicles se piden y emiten (`vehicles_list`) cuando el usuario accede al módulo "Parkings". El comportamiento actual del backend es correcto, la doc está desactualizada.
+
+### Frontend
+- [ ] Crear página de Reservas (`/reservations/page.tsx`) con ABM y listado de reservas
+- [ ] Crear página de Peritajes (`/inspections/page.tsx`) con ABM, ejecución y aprobación de peritajes
+- [ ] Crear página de Parkings (`/parkings/page.tsx`) con ABM de parkings y vehicles
+- [ ] **Fix Dashboard**: Eliminar datos hardcodeados ("Local Central", "Depósito 1", "Depósito 2"). Usar datos reales del backend vía socket.
+- [ ] **Crear wrapper hooks** `useAuth()` y `useParking()` (frontend y app-mobile) para evitar usar `useAppSelector`/`useAppDispatch` directamente en los componentes. Deben ser compartidos/consistentes entre ambos.
+
+### App-mobile
+- [ ] **Fix `doLogin` thunk**: Tipar correctamente el dispatch con `AppDispatch` en `authSlice.ts` para eliminar el `as any` en `LoginScreen.tsx`. También agregar tipo `PayloadAction<boolean>` a `setDarkMode` en `themeSlice.ts`.
+
+### General (Frontend + App-mobile)
+- [ ] **Consistencia Redux**: Los slices y hooks de Redux deben ser iguales tanto en la app-mobile como en el frontend. Al crear o modificar slices/hooks, verificar que ambas plataformas mantengan la misma estructura y nombres. Esto debe documentarse en la doc de state-management.
+
 ## AI Assistant Rules
 
 - **Never push directly to main.** Always create feature branches following the Git Workflow section above.
