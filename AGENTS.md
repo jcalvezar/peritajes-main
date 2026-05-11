@@ -156,10 +156,11 @@ Key environment variables used for container configuration:
 
 ## AI Assistant Rules
 
-- **Never push directly to main.** Always create feature branches following the Git Workflow section above.
+- **Never work on main.** Always create feature branches following the Git Workflow section above. Never create features or fixes directly on main.
+- **On feature branches you CAN make commits and push.** Unlike the previous rule, you are allowed to commit and push directly to feature branches. The user only handles the PR merge.
 - **Never delete or modify git hooks.** Specifically, never delete or modify the `pre-push` hook in `.git/hooks/` or `.git/modules/*/hooks/`. If a git operation is blocked by a hook, ask the user for guidance instead of bypassing or removing the hook.
 - **Never modify or delete the .env file.** The .env file contains critical environment variables and must not be altered.
-- **Never make commits or pushes.** Only provide the user with the **list of files to commit**. The user will do the commit and push themselves.
+- **Always pull main (or the base branch) in the target repository before creating a feature branch.** This includes submodules — if working on a submodule, pull main there first too. This prevents merge conflicts in PRs.
 - **If git pull fails**, show the user which files are causing the problem and ask what to do before taking any action. Do not reset or clean without user permission.
 - **When sign in is successful**, the app shows parkings and vehicles. Use real data from backend via socket, not hardcoded data.
 - **Unit tests required.** For every code change (new feature, refactor, or fix), create or update corresponding unit tests. Tests must pass before considering the change complete.
@@ -175,6 +176,7 @@ Key environment variables used for container configuration:
 | 2026-05-11 01:30 | App-mobile: Parking CRUD + socket handlers (marcado, no implementado) | ParkingContext.tsx, SocketContext.tsx, ParkingForm.js, Parking.js, Parkings.js |
 | 2026-05-11 10:10 | App-mobile: Implementación real módulo Parkings | store/*, ParkingForm.js, VehicleForm.js, ParkingContext.tsx, SocketContext.tsx, Parking.js, Parkings.js, App.tsx, localization/* |
 | 2026-05-11 10:15 | App-mobile: Eliminados contexts, Redux único estado global | App.tsx, authSlice.ts, SocketContext.tsx, Parkings.js, LoginScreen.tsx, LogoutScreen.js |
+| 2026-05-11 11:00 | App-mobile: CRUD completo Parkings (desde main limpio) | parkingSlice.ts, SocketContext.tsx, ParkingForm.js, VehicleForm.js, Parking.js, Parkings.tsx, localization/* |
 
 ## TO DO
 
