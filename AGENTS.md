@@ -141,16 +141,26 @@ Key environment variables used for container configuration:
 
 ### App-mobile
 - [ ] **Fix `doLogin` thunk**: Tipar correctamente el dispatch con `AppDispatch` en `authSlice.ts` para eliminar el `as any` en `LoginScreen.tsx`. También agregar tipo `PayloadAction<boolean>` a `setDarkMode` en `themeSlice.ts`.
+- [x] **Crear store Redux** (parkingSlice, authSlice, index, hooks) - ✅ COMPLETADO 2026-05-11 10:10
+- [x] **Crear ParkingForm.js** - Modal para ABM de parking lots - ✅ COMPLETADO 2026-05-11 10:10
+- [x] **Crear VehicleForm.js** - Modal para ABM de vehículos - ✅ COMPLETADO 2026-05-11 10:10
+- [x] **Actualizar ParkingContext.tsx** - ADD/UPDATE/REMOVE parking lot + REMOVE/UPDATE vehicle - ✅ COMPLETADO 2026-05-11 10:10
+- [x] **Actualizar SocketContext.tsx** - parking_added/updated/deleted, vehicle_updated/deleted listeners - ✅ COMPLETADO 2026-05-11 10:10
+- [x] **Actualizar Parking.js** - Botones edit/delete funcionales con API calls - ✅ COMPLETADO 2026-05-11 10:10
+- [x] **Actualizar Parkings.js** - FAB conectado a ParkingForm, empty state - ✅ COMPLETADO 2026-05-11 10:10
+- [x] **Actualizar App.tsx** - ReduxProvider agregado - ✅ COMPLETADO 2026-05-11 10:10
+- [x] **Arreglar localization** - Fix duplicado parkings key en es.js + nuevos strings - ✅ COMPLETADO 2026-05-11 10:10
 
 ### General (Frontend + App-mobile)
 - [ ] **Consistencia Redux**: Los slices y hooks de Redux deben ser iguales tanto en la app-mobile como en el frontend. Al crear o modificar slices/hooks, verificar que ambas plataformas mantengan la misma estructura y nombres. Esto debe documentarse en la doc de state-management.
 
 ## AI Assistant Rules
 
-- **Never push directly to main.** Always create feature branches following the Git Workflow section above.
+- **Never work on main.** Always create feature branches following the Git Workflow section above. Never create features or fixes directly on main.
+- **On feature branches you CAN make commits and push.** Unlike the previous rule, you are allowed to commit and push directly to feature branches. The user only handles the PR merge.
 - **Never delete or modify git hooks.** Specifically, never delete or modify the `pre-push` hook in `.git/hooks/` or `.git/modules/*/hooks/`. If a git operation is blocked by a hook, ask the user for guidance instead of bypassing or removing the hook.
 - **Never modify or delete the .env file.** The .env file contains critical environment variables and must not be altered.
-- **Never make commits or pushes.** Only provide the user with the **list of files to commit**. The user will do the commit and push themselves.
+- **Always pull main (or the base branch) in the target repository before creating a feature branch.** This includes submodules — if working on a submodule, pull main there first too. This prevents merge conflicts in PRs.
 - **If git pull fails**, show the user which files are causing the problem and ask what to do before taking any action. Do not reset or clean without user permission.
 - **When sign in is successful**, the app shows parkings and vehicles. Use real data from backend via socket, not hardcoded data.
 - **Unit tests required.** For every code change (new feature, refactor, or fix), create or update corresponding unit tests. Tests must pass before considering the change complete.
@@ -163,7 +173,10 @@ Key environment variables used for container configuration:
 | 2026-05-11 00:30 | Spec files created in `agents/` | agents/*.md |
 | 2026-05-11 01:00 | Backend: Parking CRUD implemented | parkingController.js, parkingRoutes.js, server.js |
 | 2026-05-11 01:15 | Frontend: Parkings page + slice CRUD | parkings/page.tsx, parkingLotsSlice.ts, ProtectedDrawer.tsx |
-| 2026-05-11 01:30 | App-mobile: Parking CRUD + socket handlers | ParkingContext.tsx, SocketContext.tsx, ParkingForm.js, Parking.js, Parkings.js |
+| 2026-05-11 01:30 | App-mobile: Parking CRUD + socket handlers (marcado, no implementado) | ParkingContext.tsx, SocketContext.tsx, ParkingForm.js, Parking.js, Parkings.js |
+| 2026-05-11 10:10 | App-mobile: Implementación real módulo Parkings | store/*, ParkingForm.js, VehicleForm.js, ParkingContext.tsx, SocketContext.tsx, Parking.js, Parkings.js, App.tsx, localization/* |
+| 2026-05-11 10:15 | App-mobile: Eliminados contexts, Redux único estado global | App.tsx, authSlice.ts, SocketContext.tsx, Parkings.js, LoginScreen.tsx, LogoutScreen.js |
+| 2026-05-11 11:00 | App-mobile: CRUD completo Parkings (desde main limpio) | parkingSlice.ts, SocketContext.tsx, ParkingForm.js, VehicleForm.js, Parking.js, Parkings.tsx, localization/* |
 
 ## TO DO
 
@@ -312,11 +325,16 @@ Key environment variables used for container configuration:
 9. ✅ `ProtectedDrawer.tsx` - Link a Parkings
 
 #### Fase 3: App-mobile
-10. ✅ `ParkingContext.tsx` - Agregar acciones CRUD
-11. ✅ `ParkingForm.js` - Modal ABM
-12. ✅ `Parkings.js` - Conectar FAB
-13. ✅ `Parking.js` - Implementar botones edit/delete
-14. ✅ `SocketContext.tsx` - Agregar listeners socket
+10. ✅ `ParkingContext.tsx` - Agregar acciones CRUD (ADD/UPDATE/REMOVE parking lot + REMOVE/UPDATE vehicle)
+11. ✅ `ParkingForm.js` - Modal ABM de parking lots (creado real)
+12. ✅ `VehicleForm.js` - Modal ABM de vehículos (creado real)
+13. ✅ `Parkings.js` - Conectar FAB + empty state + ParkingForm integrado
+14. ✅ `Parking.js` - Implementar botones edit/delete funcionales (con delete via API y onEdit callback)
+15. ✅ `SocketContext.tsx` - Agregar listeners socket (parking_added/updated/deleted, vehicle_updated/deleted)
+16. ✅ `store/` - Redux store creado (index.ts, hooks.ts, parkingSlice.ts, authSlice.ts)
+17. ✅ `App.tsx` - ReduxProvider agregado
+18. ✅ `localization/` - Fix duplicado parkings key + nuevos strings
+19. ✅ **Eliminados AuthContext y ParkingContext** - Redux es ahora el único estado global. SocketContext ya no es un Context, solo un componente que usa Redux hooks. App.tsx simplificado a ReduxProvider → SocketProvider → NavigationContainer
 
 ---
 
