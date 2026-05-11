@@ -153,6 +153,17 @@ Key environment variables used for container configuration:
 - **Never make commits or pushes.** Only provide the user with the **list of files to commit**. The user will do the commit and push themselves.
 - **If git pull fails**, show the user which files are causing the problem and ask what to do before taking any action. Do not reset or clean without user permission.
 - **When sign in is successful**, the app shows parkings and vehicles. Use real data from backend via socket, not hardcoded data.
+- **Unit tests required.** For every code change (new feature, refactor, or fix), create or update corresponding unit tests. Tests must pass before considering the change complete.
+- **Update AGENTS.md after each change.** After completing any task, update AGENTS.md to reflect the change with timestamp (YYYY-MM-DD HH:mm). Then ask user if changes should be pushed. If yes: create branch, commit, push, show PR link. User handles PR, merge, etc.
+
+## Change Log
+
+| Date | Change | Files |
+|------|--------|-------|
+| 2026-05-11 00:30 | Spec files created in `agents/` | agents/*.md |
+| 2026-05-11 01:00 | Backend: Parking CRUD implemented | parkingController.js, parkingRoutes.js, server.js |
+| 2026-05-11 01:15 | Frontend: Parkings page + slice CRUD | parkings/page.tsx, parkingLotsSlice.ts, ProtectedDrawer.tsx |
+| 2026-05-11 01:30 | App-mobile: Parking CRUD + socket handlers | ParkingContext.tsx, SocketContext.tsx, ParkingForm.js, Parking.js, Parkings.js |
 
 ## TO DO
 
@@ -235,3 +246,111 @@ Key environment variables used for container configuration:
 3. ✅ Refactorizar providers/layout para usar Redux - **MERGED TO MAIN**
 4. ✅ Eliminar Contexts - **MERGED TO MAIN**
 5. ⚠️ Verificar alineación con docs (parcial)
+
+---
+
+## Implementación: Módulo Parkings
+
+### Análisis - Backend
+
+| Componente | Estado | Archivo |
+|------------|--------|---------|
+| Controller | ❌ No existe | `controllers/parkingController.js` |
+| Routes | ❌ No existe | `routes/parkingRoutes.js` |
+| Registro en server.js | ❌ Falta | - |
+| Validación permisos | ❌ No hay | - |
+
+**Endpoints REST faltantes:**
+- `GET /api/parkings` - Listar todos de la empresa
+- `POST /api/parkings` - Crear nuevo
+- `GET /api/parkings/:id` - Ver uno
+- `PUT /api/parkings/:id` - Editar
+- `DELETE /api/parkings/:id` - Eliminar
+
+**Socket events a emitir:**
+- `parking_added`
+- `parking_updated`
+- `parking_deleted`
+
+### Análisis - Frontend
+
+| Componente | Estado | Archivo |
+|------------|--------|---------|
+| Página `/parkings` | ❌ No existe | `src/app/[locale]/(protected)/parkings/page.tsx` |
+| Componente ParkingForm | ❌ No existe | - |
+| Componente VehicleForm | ❌ No existe | - |
+| Slice: addParkingLot | ❌ Falta | `store/parkingLotsSlice.ts` |
+| Slice: updateParkingLot | ❌ Falta | `store/parkingLotsSlice.ts` |
+| Slice: removeParkingLot | ❌ Falta | `store/parkingLotsSlice.ts` |
+| Link en navegación | ❌ No hay | `ProtectedDrawer.tsx` |
+
+### Análisis - App-mobile
+
+| Componente | Estado | Archivo |
+|------------|--------|---------|
+| ParkingForm modal | ❌ No existe | `src/components/parkings/ParkingForm.js` |
+| VehicleForm modal | ❌ No existe | `src/components/parkings/VehicleForm.js` |
+| ParkingContext: CRUD | ❌ Falta | `ParkingContext.tsx` |
+| Socket: parking_added/updated/deleted | ❌ Falta | `SocketContext.tsx` |
+| Botones edit/delete funcionales | ❌ No implementados | `Parking.js` |
+
+---
+
+### Orden de implementación
+
+#### Fase 1: Backend
+1. ✅ `backend/controllers/parkingController.js`
+2. ✅ `backend/routes/parkingRoutes.js`
+3. ✅ `backend/server.js` - Registrar routes
+4. ✅ Emitir socket events
+
+#### Fase 2: Frontend
+5. ✅ `parkingLotsSlice.ts` - Agregar thunks CRUD
+6. ✅ `parkings/page.tsx` - Página completa
+7. ⏳ `ParkingForm.tsx` - Formulario ABM (integrado en página)
+8. ⏳ `VehicleForm.tsx` - Formulario ABM vehicles (pendiente)
+9. ✅ `ProtectedDrawer.tsx` - Link a Parkings
+
+#### Fase 3: App-mobile
+10. ✅ `ParkingContext.tsx` - Agregar acciones CRUD
+11. ✅ `ParkingForm.js` - Modal ABM
+12. ✅ `Parkings.js` - Conectar FAB
+13. ✅ `Parking.js` - Implementar botones edit/delete
+14. ✅ `SocketContext.tsx` - Agregar listeners socket
+
+---
+
+### Referencias
+
+Ver specs detalladas en `agents/`:
+- [agents/database.md](./agents/database.md)
+- [agents/parkings.md](./agents/parkings.md)
+- [agents/api-rest.md](./agents/api-rest.md)
+- [agents/socket-events.md](./agents/socket-events.md)
+- [agents/state-management.md](./agents/state-management.md)
+
+---
+
+## Sitio Web Público (Landing Page)
+
+Crear un sitio web público que sea una réplica de https://meucci.com.ar
+
+**Objetivo:** Presentar la empresa y el producto a potenciales clientes.
+
+**Características a replicar:**
+- Diseño corporativo profesional
+- Secciones: Inicio, Nosotros, Servicios, Contacto
+- Catalogo de vehiculos (datos de ACARA)
+- Formulario de contacto
+- Responsive design
+
+**Tech stack:**
+- Next.js (misma estructura que frontend existente)
+- O puede ser un proyecto separado
+
+**TODO:**
+- [ ] Crear página principal pública
+- [ ] Diseñar layout y componentes
+- [ ] Integrar catálogo de vehículos (datos de ACARA)
+- [ ] Agregar formulario de contacto
+- [ ] SEO y metadata
