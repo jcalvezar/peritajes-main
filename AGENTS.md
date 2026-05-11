@@ -9,7 +9,7 @@ This project follows a microservices-like architecture with separate containers 
 **No commits or push directly to main.** Always create feature branches:
 1. Create branch from main: `git checkout -b feature/description`
 2. Commit and push changes
-3. Create PR for review
+3. **`gh` command is NOT available in this environment.** Do NOT attempt to install it or use the GitHub API directly. Instead, provide the PR creation link to the user (printed by `git push` output: `https://github.com/*/pull/new/<branch>`).
 4. After merge, switch to main and pull
 
 ## Containers
@@ -60,16 +60,11 @@ This project follows a microservices-like architecture with separate containers 
 
 ## System Modules
 
-The system is divided into 3 paid, independent modules. Access to each module is granted based on the dealership's subscription, and only subscribed modules are displayed in both the mobile app and frontend:
-
-### 1. Parkings
-Manages vehicle depositories and the vehicles stored in each depository. Includes ABM (Add, Edit, Delete) of parkings, ABM of vehicles in parkings, and parking listings.
-
-### 2. Reservas
-Manages vehicle reservations: customers indicate vehicles they want that are not yet available in the dealership. Includes ABM of reservations and reservation listings.
-
-### 3. Peritajes
-Manages used vehicle inspections (checks for engine, paint, tires, interior, etc.). Includes ABM of vehicles to inspect, inspection execution, and inspection approval.
+| Module | English Name | Description |
+|--------|-------------|-------------|
+| Parkings | Parkings | Vehicle depositories & stored vehicles (ABM + listings) |
+| Reservas | Reservations | Vehicle reservation management (ABM + listings) |
+| Peritajes | Inspections | Used vehicle inspections (ABM + execution + approval) |
 
 ## User Roles and Permissions
 
@@ -126,33 +121,25 @@ Key environment variables used for container configuration:
 ## TO-DO List
 
 ### Docs
-- [ ] Actualizar doc parser: cambiar `./backend/parser/` por `./backend/parser.js` (archivo único)
+- [ ] Fix doc parser ruta: cambiar `./backend/parser/` → `./backend/parser.js`
+- [ ] Actualizar doc socket-events: `join_company` solo envía parkings (no vehicles)
 
 ### Backend
-- [ ] **Fix `sockets/utils.js`**: Cambiar `export const generateRoom` (ES module) a `module.exports = { generateRoom }` (CommonJS). El resto del backend usa CommonJS y esto rompe en runtime.
-- [ ] Actualizar doc data-flow/socket-events: en `join_company` solo se envían los parkings (no los vehicles). Los vehicles se piden y emiten (`vehicles_list`) cuando el usuario accede al módulo "Parkings". El comportamiento actual del backend es correcto, la doc está desactualizada.
+- [ ] **Fix `sockets/utils.js`**: Cambiar `export const generateRoom` a `module.exports = { generateRoom }` (CommonJS)
 
 ### Frontend
-- [ ] Crear página de Reservas (`/reservations/page.tsx`) con ABM y listado de reservas
-- [ ] Crear página de Peritajes (`/inspections/page.tsx`) con ABM, ejecución y aprobación de peritajes
-- [ ] Crear página de Parkings (`/parkings/page.tsx`) con ABM de parkings y vehicles
-- [ ] **Fix Dashboard**: Eliminar datos hardcodeados ("Local Central", "Depósito 1", "Depósito 2"). Usar datos reales del backend vía socket.
-- [ ] **Crear wrapper hooks** `useAuth()` y `useParking()` (frontend y app-mobile) para evitar usar `useAppSelector`/`useAppDispatch` directamente en los componentes. Deben ser compartidos/consistentes entre ambos.
+- [ ] Crear página de Reservas (`/reservations/page.tsx`)
+- [ ] Crear página de Peritajes (`/inspections/page.tsx`)
+- [ ] **Fix Dashboard**: eliminar datos hardcodeados, usar datos reales vía socket
+- [ ] **Crear wrapper hooks** `useAuth()` y `useParking()` para no usar `useAppSelector`/`useAppDispatch` directo
 
 ### App-mobile
-- [ ] **Fix `doLogin` thunk**: Tipar correctamente el dispatch con `AppDispatch` en `authSlice.ts` para eliminar el `as any` en `LoginScreen.tsx`. También agregar tipo `PayloadAction<boolean>` a `setDarkMode` en `themeSlice.ts`.
-- [x] **Crear store Redux** (parkingSlice, authSlice, index, hooks) - ✅ COMPLETADO 2026-05-11 10:10
-- [x] **Crear ParkingForm.js** - Modal para ABM de parking lots - ✅ COMPLETADO 2026-05-11 10:10
-- [x] **Crear VehicleForm.js** - Modal para ABM de vehículos - ✅ COMPLETADO 2026-05-11 10:10
-- [x] **Actualizar ParkingContext.tsx** - ADD/UPDATE/REMOVE parking lot + REMOVE/UPDATE vehicle - ✅ COMPLETADO 2026-05-11 10:10
-- [x] **Actualizar SocketContext.tsx** - parking_added/updated/deleted, vehicle_updated/deleted listeners - ✅ COMPLETADO 2026-05-11 10:10
-- [x] **Actualizar Parking.js** - Botones edit/delete funcionales con API calls - ✅ COMPLETADO 2026-05-11 10:10
-- [x] **Actualizar Parkings.js** - FAB conectado a ParkingForm, empty state - ✅ COMPLETADO 2026-05-11 10:10
-- [x] **Actualizar App.tsx** - ReduxProvider agregado - ✅ COMPLETADO 2026-05-11 10:10
-- [x] **Arreglar localization** - Fix duplicado parkings key en es.js + nuevos strings - ✅ COMPLETADO 2026-05-11 10:10
+- [ ] **Fix `doLogin` thunk**: tipar dispatch con `AppDispatch`, sacar `as any`
+- [ ] **Fix `setDarkMode`**: agregar tipo `PayloadAction<boolean>`
 
-### General (Frontend + App-mobile)
-- [ ] **Consistencia Redux**: Los slices y hooks de Redux deben ser iguales tanto en la app-mobile como en el frontend. Al crear o modificar slices/hooks, verificar que ambas plataformas mantengan la misma estructura y nombres. Esto debe documentarse en la doc de state-management.
+### General
+- [ ] **Consistencia Redux**: slices/hooks deben ser iguales en frontend y app-mobile
+- [ ] **Landing Page**: sitio web público (replica de meucci.com.ar)
 
 ## AI Assistant Rules
 
@@ -188,198 +175,8 @@ Key environment variables used for container configuration:
 | 2026-05-11 10:10 | App-mobile: Implementación real módulo Parkings | store/*, ParkingForm.js, VehicleForm.js, ParkingContext.tsx, SocketContext.tsx, Parking.js, Parkings.js, App.tsx, localization/* |
 | 2026-05-11 10:15 | App-mobile: Eliminados contexts, Redux único estado global | App.tsx, authSlice.ts, SocketContext.tsx, Parkings.js, LoginScreen.tsx, LogoutScreen.js |
 | 2026-05-11 11:00 | App-mobile: CRUD completo Parkings (desde main limpio) | parkingSlice.ts, SocketContext.tsx, ParkingForm.js, VehicleForm.js, Parking.js, Parkings.tsx, localization/* |
+| 2026-05-11 11:30 | Backend: Tests parking controller (100% coverage) | __tests__/controllers.test.js |
+| 2026-05-11 11:45 | App-mobile: Tests Redux slices (100% coverage) | src/store/__tests__/*.test.ts |
+| 2026-05-11 12:00 | Frontend: Tests Redux slices (parking + auth) | src/store/__tests__/*.test.ts |
+| 2026-05-11 12:30 | Branch cleanup + submodule sync | AGENTS.md |
 
-## TO DO
-
-### 1. Cambiar nombres de módulos a inglés (No modificar i18n) ✅ COMPLETADO
-
-**Módulos a cambiar:**
-- `Reservas` → `Reservations`
-- `Peritajes` → `Inspections`
-- `Parkings` ya está en inglés (mantener)
-
-**Archivos modificados (excluyendo i18n):**
-
-| Archivo | Cambio |
-|---------|--------|
-| `README.md` (root) | Descripciones de módulos |
-| `frontend/README.md` | Descripciones de módulos |
-| `backend/README.md` | Referencias a módulos |
-| `backend/seed.js` | Nombres en DB: `reservas` → `reservations`, `peritajes` → `inspections` |
-| `frontend/src/store/reservasSlice.ts` | Renombrado a `reservationsSlice.ts` |
-| `frontend/src/store/peritajesSlice.ts` | Renombrado a `inspectionsSlice.ts` |
-| `frontend/src/store/index.ts` | Actualizar imports y reducers |
-
-### 2. Reemplazar Contexts por Redux slices ✅ COMPLETADO
-
-**Contexts migrados:**
-- `AuthContext.tsx` → creado `authSlice.ts`
-- `ThemeContext.tsx` → creado `themeSlice.ts`
-- `SocketProvider.tsx` → actualizado para usar Redux
-
-**Pasos completados:**
-
-1. **Creado `authSlice.ts`** con:
-   - State: `isAuthenticated`, `user`, `token`, `company`
-   - Actions: `login()`, `logout()`, `setCompany()`, `setInitialAuth()`
-   - Persistencia en localStorage
-
-2. **Creado `themeSlice.ts`** con:
-   - State: `isDarkMode`
-   - Actions: `toggleDarkMode()`, `setDarkMode()`
-   - Persistencia en localStorage
-
-3. **Actualizado `store/index.ts`** para incluir nuevos slices
-
-4. **Modificado `LayoutContent.tsx`** para:
-   - Eliminar `CustomThemeProvider` y `AuthProvider`
-   - Usar Redux hooks directamente
-   - Simplificar jerarquía: `ReduxProvider` → `SocketProvider` → children
-
-5. **Eliminados archivos:**
-   - `frontend/src/context/AuthContext.tsx` ✅
-   - `frontend/src/context/ThemeContext.tsx` ✅
-
-6. **Actualizados componentes** que usaban `useAuth()` y `useTheme()` para usar `useAppSelector/useAppDispatch`:
-   - `ProtectedDrawer.tsx`
-   - `ProtectedNavbar.tsx`
-   - `ProtectedFooter.tsx`
-   - `ThemeSwitcher.tsx`
-   - `users/page.tsx`
-   - `roles/page.tsx`
-   - `login/page.tsx`
-   - `SocketProvider.tsx`
-   - `layout.tsx` (locale)
-
-### 3. Revisar documentación vs implementación
-
-**Verificado:**
-- ✅ Docs referencian `authSlice.ts` → **Creado en paso 2**
-- ✅ Docs usan nombres "Parking", "Reservations", "Inspections" → **Alineado en paso 1**
-- ⚠️ Interfaces incompletas en `reservationsSlice.ts` e `inspectionsSlice.ts` → **Pendiente completar**
-- ⚠️ Fuentes markdown de docs no existen en repo (`docs/docs/` vacío) → **Notificar al usuario**
-
-**Pendiente:**
-- Completar interfaces `Reservation` e `Inspection` en slices
-- Crear archivos markdown fuente para documentación en `docs/docs/`
-
-### Orden de ejecución completado:
-
-1. ✅ Cambiar nombres de módulos (excluyendo i18n) - **MERGED TO MAIN**
-2. ✅ Crear slices de Redux para Auth y Theme - **MERGED TO MAIN**
-3. ✅ Refactorizar providers/layout para usar Redux - **MERGED TO MAIN**
-4. ✅ Eliminar Contexts - **MERGED TO MAIN**
-5. ⚠️ Verificar alineación con docs (parcial)
-
----
-
-## Implementación: Módulo Parkings
-
-### Análisis - Backend
-
-| Componente | Estado | Archivo |
-|------------|--------|---------|
-| Controller | ❌ No existe | `controllers/parkingController.js` |
-| Routes | ❌ No existe | `routes/parkingRoutes.js` |
-| Registro en server.js | ❌ Falta | - |
-| Validación permisos | ❌ No hay | - |
-
-**Endpoints REST faltantes:**
-- `GET /api/parkings` - Listar todos de la empresa
-- `POST /api/parkings` - Crear nuevo
-- `GET /api/parkings/:id` - Ver uno
-- `PUT /api/parkings/:id` - Editar
-- `DELETE /api/parkings/:id` - Eliminar
-
-**Socket events a emitir:**
-- `parking_added`
-- `parking_updated`
-- `parking_deleted`
-
-### Análisis - Frontend
-
-| Componente | Estado | Archivo |
-|------------|--------|---------|
-| Página `/parkings` | ❌ No existe | `src/app/[locale]/(protected)/parkings/page.tsx` |
-| Componente ParkingForm | ❌ No existe | - |
-| Componente VehicleForm | ❌ No existe | - |
-| Slice: addParkingLot | ❌ Falta | `store/parkingLotsSlice.ts` |
-| Slice: updateParkingLot | ❌ Falta | `store/parkingLotsSlice.ts` |
-| Slice: removeParkingLot | ❌ Falta | `store/parkingLotsSlice.ts` |
-| Link en navegación | ❌ No hay | `ProtectedDrawer.tsx` |
-
-### Análisis - App-mobile
-
-| Componente | Estado | Archivo |
-|------------|--------|---------|
-| ParkingForm modal | ❌ No existe | `src/components/parkings/ParkingForm.js` |
-| VehicleForm modal | ❌ No existe | `src/components/parkings/VehicleForm.js` |
-| ParkingContext: CRUD | ❌ Falta | `ParkingContext.tsx` |
-| Socket: parking_added/updated/deleted | ❌ Falta | `SocketContext.tsx` |
-| Botones edit/delete funcionales | ❌ No implementados | `Parking.js` |
-
----
-
-### Orden de implementación
-
-#### Fase 1: Backend
-1. ✅ `backend/controllers/parkingController.js`
-2. ✅ `backend/routes/parkingRoutes.js`
-3. ✅ `backend/server.js` - Registrar routes
-4. ✅ Emitir socket events
-
-#### Fase 2: Frontend
-5. ✅ `parkingLotsSlice.ts` - Agregar thunks CRUD
-6. ✅ `parkings/page.tsx` - Página completa
-7. ⏳ `ParkingForm.tsx` - Formulario ABM (integrado en página)
-8. ⏳ `VehicleForm.tsx` - Formulario ABM vehicles (pendiente)
-9. ✅ `ProtectedDrawer.tsx` - Link a Parkings
-
-#### Fase 3: App-mobile
-10. ✅ `ParkingContext.tsx` - Agregar acciones CRUD (ADD/UPDATE/REMOVE parking lot + REMOVE/UPDATE vehicle)
-11. ✅ `ParkingForm.js` - Modal ABM de parking lots (creado real)
-12. ✅ `VehicleForm.js` - Modal ABM de vehículos (creado real)
-13. ✅ `Parkings.js` - Conectar FAB + empty state + ParkingForm integrado
-14. ✅ `Parking.js` - Implementar botones edit/delete funcionales (con delete via API y onEdit callback)
-15. ✅ `SocketContext.tsx` - Agregar listeners socket (parking_added/updated/deleted, vehicle_updated/deleted)
-16. ✅ `store/` - Redux store creado (index.ts, hooks.ts, parkingSlice.ts, authSlice.ts)
-17. ✅ `App.tsx` - ReduxProvider agregado
-18. ✅ `localization/` - Fix duplicado parkings key + nuevos strings
-19. ✅ **Eliminados AuthContext y ParkingContext** - Redux es ahora el único estado global. SocketContext ya no es un Context, solo un componente que usa Redux hooks. App.tsx simplificado a ReduxProvider → SocketProvider → NavigationContainer
-
----
-
-### Referencias
-
-Ver specs detalladas en `agents/`:
-- [agents/database.md](./agents/database.md)
-- [agents/parkings.md](./agents/parkings.md)
-- [agents/api-rest.md](./agents/api-rest.md)
-- [agents/socket-events.md](./agents/socket-events.md)
-- [agents/state-management.md](./agents/state-management.md)
-
----
-
-## Sitio Web Público (Landing Page)
-
-Crear un sitio web público que sea una réplica de https://meucci.com.ar
-
-**Objetivo:** Presentar la empresa y el producto a potenciales clientes.
-
-**Características a replicar:**
-- Diseño corporativo profesional
-- Secciones: Inicio, Nosotros, Servicios, Contacto
-- Catalogo de vehiculos (datos de ACARA)
-- Formulario de contacto
-- Responsive design
-
-**Tech stack:**
-- Next.js (misma estructura que frontend existente)
-- O puede ser un proyecto separado
-
-**TODO:**
-- [ ] Crear página principal pública
-- [ ] Diseñar layout y componentes
-- [ ] Integrar catálogo de vehículos (datos de ACARA)
-- [ ] Agregar formulario de contacto
-- [ ] SEO y metadata
