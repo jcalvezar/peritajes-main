@@ -153,3 +153,85 @@ Key environment variables used for container configuration:
 - **Never make commits or pushes.** Only provide the user with the **list of files to commit**. The user will do the commit and push themselves.
 - **If git pull fails**, show the user which files are causing the problem and ask what to do before taking any action. Do not reset or clean without user permission.
 - **When sign in is successful**, the app shows parkings and vehicles. Use real data from backend via socket, not hardcoded data.
+
+## TO DO
+
+### 1. Cambiar nombres de módulos a inglés (No modificar i18n) ✅ COMPLETADO
+
+**Módulos a cambiar:**
+- `Reservas` → `Reservations`
+- `Peritajes` → `Inspections`
+- `Parkings` ya está en inglés (mantener)
+
+**Archivos modificados (excluyendo i18n):**
+
+| Archivo | Cambio |
+|---------|--------|
+| `README.md` (root) | Descripciones de módulos |
+| `frontend/README.md` | Descripciones de módulos |
+| `backend/README.md` | Referencias a módulos |
+| `backend/seed.js` | Nombres en DB: `reservas` → `reservations`, `peritajes` → `inspections` |
+| `frontend/src/store/reservasSlice.ts` | Renombrado a `reservationsSlice.ts` |
+| `frontend/src/store/peritajesSlice.ts` | Renombrado a `inspectionsSlice.ts` |
+| `frontend/src/store/index.ts` | Actualizar imports y reducers |
+
+### 2. Reemplazar Contexts por Redux slices ✅ COMPLETADO
+
+**Contexts migrados:**
+- `AuthContext.tsx` → creado `authSlice.ts`
+- `ThemeContext.tsx` → creado `themeSlice.ts`
+- `SocketProvider.tsx` → actualizado para usar Redux
+
+**Pasos completados:**
+
+1. **Creado `authSlice.ts`** con:
+   - State: `isAuthenticated`, `user`, `token`, `company`
+   - Actions: `login()`, `logout()`, `setCompany()`, `setInitialAuth()`
+   - Persistencia en localStorage
+
+2. **Creado `themeSlice.ts`** con:
+   - State: `isDarkMode`
+   - Actions: `toggleDarkMode()`, `setDarkMode()`
+   - Persistencia en localStorage
+
+3. **Actualizado `store/index.ts`** para incluir nuevos slices
+
+4. **Modificado `LayoutContent.tsx`** para:
+   - Eliminar `CustomThemeProvider` y `AuthProvider`
+   - Usar Redux hooks directamente
+   - Simplificar jerarquía: `ReduxProvider` → `SocketProvider` → children
+
+5. **Eliminados archivos:**
+   - `frontend/src/context/AuthContext.tsx` ✅
+   - `frontend/src/context/ThemeContext.tsx` ✅
+
+6. **Actualizados componentes** que usaban `useAuth()` y `useTheme()` para usar `useAppSelector/useAppDispatch`:
+   - `ProtectedDrawer.tsx`
+   - `ProtectedNavbar.tsx`
+   - `ProtectedFooter.tsx`
+   - `ThemeSwitcher.tsx`
+   - `users/page.tsx`
+   - `roles/page.tsx`
+   - `login/page.tsx`
+   - `SocketProvider.tsx`
+   - `layout.tsx` (locale)
+
+### 3. Revisar documentación vs implementación
+
+**Verificado:**
+- ✅ Docs referencian `authSlice.ts` → **Creado en paso 2**
+- ✅ Docs usan nombres "Parking", "Reservations", "Inspections" → **Alineado en paso 1**
+- ⚠️ Interfaces incompletas en `reservationsSlice.ts` e `inspectionsSlice.ts` → **Pendiente completar**
+- ⚠️ Fuentes markdown de docs no existen en repo (`docs/docs/` vacío) → **Notificar al usuario**
+
+**Pendiente:**
+- Completar interfaces `Reservation` e `Inspection` en slices
+- Crear archivos markdown fuente para documentación en `docs/docs/`
+
+### Orden de ejecución completado:
+
+1. ✅ Cambiar nombres de módulos (excluyendo i18n) - **MERGED TO MAIN**
+2. ✅ Crear slices de Redux para Auth y Theme - **MERGED TO MAIN**
+3. ✅ Refactorizar providers/layout para usar Redux - **MERGED TO MAIN**
+4. ✅ Eliminar Contexts - **MERGED TO MAIN**
+5. ⚠️ Verificar alineación con docs (parcial)
