@@ -141,6 +141,15 @@ Key environment variables used for container configuration:
 
 ### App-mobile
 - [ ] **Fix `doLogin` thunk**: Tipar correctamente el dispatch con `AppDispatch` en `authSlice.ts` para eliminar el `as any` en `LoginScreen.tsx`. También agregar tipo `PayloadAction<boolean>` a `setDarkMode` en `themeSlice.ts`.
+- [x] **Crear store Redux** (parkingSlice, authSlice, index, hooks) - ✅ COMPLETADO 2026-05-11 10:10
+- [x] **Crear ParkingForm.js** - Modal para ABM de parking lots - ✅ COMPLETADO 2026-05-11 10:10
+- [x] **Crear VehicleForm.js** - Modal para ABM de vehículos - ✅ COMPLETADO 2026-05-11 10:10
+- [x] **Actualizar ParkingContext.tsx** - ADD/UPDATE/REMOVE parking lot + REMOVE/UPDATE vehicle - ✅ COMPLETADO 2026-05-11 10:10
+- [x] **Actualizar SocketContext.tsx** - parking_added/updated/deleted, vehicle_updated/deleted listeners - ✅ COMPLETADO 2026-05-11 10:10
+- [x] **Actualizar Parking.js** - Botones edit/delete funcionales con API calls - ✅ COMPLETADO 2026-05-11 10:10
+- [x] **Actualizar Parkings.js** - FAB conectado a ParkingForm, empty state - ✅ COMPLETADO 2026-05-11 10:10
+- [x] **Actualizar App.tsx** - ReduxProvider agregado - ✅ COMPLETADO 2026-05-11 10:10
+- [x] **Arreglar localization** - Fix duplicado parkings key en es.js + nuevos strings - ✅ COMPLETADO 2026-05-11 10:10
 
 ### General (Frontend + App-mobile)
 - [ ] **Consistencia Redux**: Los slices y hooks de Redux deben ser iguales tanto en la app-mobile como en el frontend. Al crear o modificar slices/hooks, verificar que ambas plataformas mantengan la misma estructura y nombres. Esto debe documentarse en la doc de state-management.
@@ -163,7 +172,9 @@ Key environment variables used for container configuration:
 | 2026-05-11 00:30 | Spec files created in `agents/` | agents/*.md |
 | 2026-05-11 01:00 | Backend: Parking CRUD implemented | parkingController.js, parkingRoutes.js, server.js |
 | 2026-05-11 01:15 | Frontend: Parkings page + slice CRUD | parkings/page.tsx, parkingLotsSlice.ts, ProtectedDrawer.tsx |
-| 2026-05-11 01:30 | App-mobile: Parking CRUD + socket handlers | ParkingContext.tsx, SocketContext.tsx, ParkingForm.js, Parking.js, Parkings.js |
+| 2026-05-11 01:30 | App-mobile: Parking CRUD + socket handlers (marcado, no implementado) | ParkingContext.tsx, SocketContext.tsx, ParkingForm.js, Parking.js, Parkings.js |
+| 2026-05-11 10:10 | App-mobile: Implementación real módulo Parkings | store/*, ParkingForm.js, VehicleForm.js, ParkingContext.tsx, SocketContext.tsx, Parking.js, Parkings.js, App.tsx, localization/* |
+| 2026-05-11 10:15 | App-mobile: Eliminados contexts, Redux único estado global | App.tsx, authSlice.ts, SocketContext.tsx, Parkings.js, LoginScreen.tsx, LogoutScreen.js |
 
 ## TO DO
 
@@ -312,11 +323,16 @@ Key environment variables used for container configuration:
 9. ✅ `ProtectedDrawer.tsx` - Link a Parkings
 
 #### Fase 3: App-mobile
-10. ✅ `ParkingContext.tsx` - Agregar acciones CRUD
-11. ✅ `ParkingForm.js` - Modal ABM
-12. ✅ `Parkings.js` - Conectar FAB
-13. ✅ `Parking.js` - Implementar botones edit/delete
-14. ✅ `SocketContext.tsx` - Agregar listeners socket
+10. ✅ `ParkingContext.tsx` - Agregar acciones CRUD (ADD/UPDATE/REMOVE parking lot + REMOVE/UPDATE vehicle)
+11. ✅ `ParkingForm.js` - Modal ABM de parking lots (creado real)
+12. ✅ `VehicleForm.js` - Modal ABM de vehículos (creado real)
+13. ✅ `Parkings.js` - Conectar FAB + empty state + ParkingForm integrado
+14. ✅ `Parking.js` - Implementar botones edit/delete funcionales (con delete via API y onEdit callback)
+15. ✅ `SocketContext.tsx` - Agregar listeners socket (parking_added/updated/deleted, vehicle_updated/deleted)
+16. ✅ `store/` - Redux store creado (index.ts, hooks.ts, parkingSlice.ts, authSlice.ts)
+17. ✅ `App.tsx` - ReduxProvider agregado
+18. ✅ `localization/` - Fix duplicado parkings key + nuevos strings
+19. ✅ **Eliminados AuthContext y ParkingContext** - Redux es ahora el único estado global. SocketContext ya no es un Context, solo un componente que usa Redux hooks. App.tsx simplificado a ReduxProvider → SocketProvider → NavigationContainer
 
 ---
 
