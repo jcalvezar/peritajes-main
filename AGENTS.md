@@ -156,15 +156,26 @@ Key environment variables used for container configuration:
 
 ## AI Assistant Rules
 
+### Git Workflow
+
 - **Never work on main.** Always create feature branches following the Git Workflow section above. Never create features or fixes directly on main.
 - **On feature branches you CAN make commits and push.** Unlike the previous rule, you are allowed to commit and push directly to feature branches. The user only handles the PR merge.
-- **Never delete or modify git hooks.** Specifically, never delete or modify the `pre-push` hook in `.git/hooks/` or `.git/modules/*/hooks/`. If a git operation is blocked by a hook, ask the user for guidance instead of bypassing or removing the hook.
-- **Never modify or delete the .env file.** The .env file contains critical environment variables and must not be altered.
 - **Always pull main (or the base branch) in the target repository before creating a feature branch.** This includes submodules — if working on a submodule, pull main there first too. This prevents merge conflicts in PRs.
 - **If git pull fails**, show the user which files are causing the problem and ask what to do before taking any action. Do not reset or clean without user permission.
-- **When sign in is successful**, the app shows parkings and vehicles. Use real data from backend via socket, not hardcoded data.
+
+### File Integrity
+
+- **Never delete or modify git hooks.** Specifically, never delete or modify the `pre-push` hook in `.git/hooks/` or `.git/modules/*/hooks/`. If a git operation is blocked by a hook, ask the user for guidance instead of bypassing or removing the hook.
+- **Never modify or delete the .env file.** The .env file contains critical environment variables and must not be altered.
+
+### Code Quality
+
 - **Unit tests required.** For every code change (new feature, refactor, or fix), create or update corresponding unit tests. Tests must pass before considering the change complete.
 - **Update AGENTS.md after each change.** After completing any task, update AGENTS.md to reflect the change with timestamp (YYYY-MM-DD HH:mm). Then ask user if changes should be pushed. If yes: create branch, commit, push, show PR link. User handles PR, merge, etc.
+
+### App Behavior
+
+- **When sign in is successful**, the app shows parkings and vehicles. Use real data from backend via socket, not hardcoded data.
 
 ## Change Log
 
